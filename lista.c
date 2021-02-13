@@ -5,11 +5,40 @@ typedef struct elemento{
 	struct elemento *prox;
 }Elem;
 
+int tamanhoLinha(Lista *li){
+	FILE *file;
+	file = fopen ("chaves.txt", "r");
+	
+	if(file == NULL)
+		return 0;
+	
+	char letra = '\n';
+	char palavra;
+	int tam = 0;
+	
+     while(fread (&palavra, sizeof(char), 1, file)) {
+            if(palavra == letra) {
+                tam++;
+            }
+        } 
+        
+	fclose(file);
+	
+	return (tam + 1);
+}
+
 Lista* criaLista(){
 	Lista* li = (Lista *) malloc(sizeof(Lista));
 	
-	if(li != NULL)
-	*li = NULL;
+	if(li != NULL){
+	Elem* no;
+	no = (Elem*) malloc(sizeof(Elem));
+	
+	int aux = tamanhoLinha(li); //pega a quantidade de linhas (mesma quantidade de palavras) do arquivo das chaves
+	no->dados.linha = (int*) malloc(aux * sizeof(int)); //aloca o ponteiro com a quantidade de linhas 
+	
+	*li = no; //passa o no para a lista principal
+	}
 	
 	return li;
 }
@@ -47,7 +76,7 @@ int insereInicio(Lista* li, struct item itm){
 	
 	if(no == NULL)
 		return 0;
-	
+
 	no->dados = itm;
 	no->prox = (*li);
 	*li = no;

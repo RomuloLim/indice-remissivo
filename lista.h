@@ -3,9 +3,10 @@
 #include <string.h>
 
 struct item{
-	char palavra[45];
-	int linha[10];
+	char palavra[50];
+	int *linha;
 };
+
 typedef struct elemento* Lista;
 
 Lista* criaLista();
@@ -15,4 +16,6 @@ int removeLista(Lista* li, char palavra);
 int tamanhoLista(Lista* li);
 int listaVazia(Lista* li);
 int buscaLista(Lista* li, char palavra, struct item* itm);
+
+int tamanhoLinha(Lista* li);
 
