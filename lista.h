@@ -17,5 +17,5 @@ int tamanhoLista(Lista* li);
 int listaVazia(Lista* li);
 int buscaLista(Lista* li, char palavra, struct item* itm);
 
-int tamanhoLinha(Lista* li);
+int tamanhoLinha();
 

@@ -5,7 +5,7 @@ typedef struct elemento{
 	struct elemento *prox;
 }Elem;
 
-int tamanhoLinha(Lista *li){
+int tamanhoLinha(){
 	FILE *file;
 	file = fopen ("chaves.txt", "r");
 	
@@ -34,7 +34,7 @@ Lista* criaLista(){
 	Elem* no;
 	no = (Elem*) malloc(sizeof(Elem));
 	
-	int aux = tamanhoLinha(li); //pega a quantidade de linhas (mesma quantidade de palavras) do arquivo das chaves
+	int aux = tamanhoLinha(); //pega a quantidade de linhas (mesma quantidade de palavras) do arquivo das chaves
 	no->dados.linha = (int*) malloc(aux * sizeof(int)); //aloca o ponteiro com a quantidade de linhas 
 	
 	*li = no; //passa o no para a lista principal
