@@ -23,7 +23,7 @@ int tamanhoTexto(){
         } 
         
 	fclose(file);
-	printf("%d", tam +1);
+//	printf("%d", tam +1);
 	return (tam + 1);
 }
 
@@ -95,7 +95,7 @@ int insereHashEnderAberto(Hash* ha, struct item itm){
 		if(novo == NULL)
 			return 0;
 		*novo = itm;
-		ha->itens[novaPos] = novo;
+		ha->itens[pos] = novo;
 		ha->qtd++;
 		return 1;	
 	}
