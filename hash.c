@@ -5,27 +5,10 @@ struct hash {
 	struct item **itens;
 };
 
-int tamanhoTexto(){
-	FILE *file;
-	file = fopen ("texto.txt", "r");
-	
-	if(file == NULL)
-		return 0;
-	
-	char letra = '\n';
-	char palavra;
-	int tam = 0;
-	
-     while(fread (&palavra, sizeof(char), 1, file)) {
-            if(palavra == letra) {
-                tam++;
-            }
-        } 
-        
-	fclose(file);
-//	printf("%d", tam +1);
-	return (tam + 1);
-}
+typedef struct elemento{
+	struct item dados;
+	struct elemento *prox;
+}Elem;
 
 Hash* criaHash(){
 	Hash* ha = (Hash*) malloc(sizeof(Hash));
@@ -80,40 +63,51 @@ int valorString(char *str){
 	return valor;
 }
 
-int insereHashEnderAberto(Hash* ha, struct item itm){
-	if(ha == NULL || ha->qtd == ha->tamanho)
-		return 0;
+int insereHashEnderAberto(Hash* ha, Lista* li){
+	if(ha == NULL || ha->qtd == ha->tamanho){
+			printf("\n\n erro");
+			return 0;
+	}
 	
-	int chave = valorString(itm.palavra);
-	
+	Elem* aux = *li;
 	int i, pos, novaPos;
-	pos = chaveMult(chave, ha->tamanho);
+	int j = 0;
 	
+	while(tamanhoLista(li) > j){
+	int chave = valorString(aux->dados.palavra);
+	pos = chaveMult(chave, ha->tamanho);
+
 	if(ha->itens[pos] == NULL){
 		struct item* novo;
 		novo = (struct item*) malloc(sizeof(struct item));
-		if(novo == NULL)
-			return 0;
-		*novo = itm;
-		ha->itens[pos] = novo;
-		ha->qtd++;
-		return 1;	
-	}
-	
+			*novo = aux->dados;
+			ha->itens[pos] = novo;
+			ha->qtd++;
+			
+			printf("\n\n aux: %s", aux->dados.palavra);
+			aux = aux->prox;
+		}else{
+		
 	for(i=0; i < ha->tamanho; i++){
 		novaPos = duploHash(pos, chave, i, ha->tamanho);
 		if(ha->itens[novaPos] == NULL){
 			struct item* novo;
 			novo = (struct item*) malloc(sizeof(struct item));
-			if(novo == NULL)
-				return 0;
-			*novo = itm;
+			
+			*novo = aux->dados;
 			ha->itens[novaPos] = novo;
 			ha->qtd++;
-			return 1;
+			printf("\n\n aux: %s", aux->dados.palavra);
+			aux = aux->prox;
+			i = ha->tamanho;
 		}
 	}
-	return 0;
+}
+	j++;
+	}
+	
+	return 1;
+	
 }
 
 

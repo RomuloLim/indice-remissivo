@@ -20,10 +20,32 @@ int tamanhoLinha(){
             if(palavra == letra) {
                 tam++;
             }
-        } 
+        } 	
         
 	fclose(file);
 	
+	return (tam + 1);
+}
+
+int tamanhoTexto(){
+	FILE *file;
+	file = fopen ("texto.txt", "r");
+	
+	if(file == NULL)
+		return 0;
+	
+	char letra = '\n';
+	char palavra;
+	int tam = 0;
+	
+     while(fread (&palavra, sizeof(char), 1, file)) {
+            if(palavra == letra) {
+                tam++;
+            }
+        } 
+        
+	fclose(file);
+//	printf("%d", tam +1);
 	return (tam + 1);
 }
 
@@ -34,10 +56,7 @@ Lista* criaLista(){
 	Elem* no;
 	no = (Elem*) malloc(sizeof(Elem));
 	
-	int aux = tamanhoLinha(); //pega a quantidade de linhas (mesma quantidade de palavras) do arquivo das chaves
-	no->dados.linha = (int*) malloc(aux * sizeof(int)); //aloca o ponteiro com a quantidade de linhas 
-	
-	*li = no; //passa o no para a lista principal
+	*li = NULL; //passa o no para a lista principal
 	}
 	
 	return li;
@@ -80,6 +99,24 @@ int insereInicio(Lista* li, struct item itm){
 	no->dados = itm;
 	no->prox = (*li);
 	*li = no;
-	printf("palavra %s", no->dados.palavra);
+	printf("palavra %s inserida \n", no->dados.palavra);
+	return 1;
+}
+
+int preencheChaves(Lista* li){
+	struct item itm;
+	FILE *file;
+	file = fopen ("chaves.txt", "r");
+	char linha[50];
+	
+	if(file == NULL)
+		return 0;
+	
+	while(fgets(linha, sizeof(linha), file) != NULL){
+			strcpy(itm.palavra, linha);
+			insereInicio(li, itm);
+	}
+	
+	fclose(file);
 	return 1;
 }

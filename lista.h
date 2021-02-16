@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 struct item{
 	char palavra[50];
-	int *linha;
+	int linha[100];
 };
 
 typedef struct elemento* Lista;
@@ -19,3 +20,4 @@ int buscaLista(Lista* li, char palavra, struct item* itm);
 
 
 int tamanhoLinha();
+int tamanhoTexto();
