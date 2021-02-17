@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	
 	insereHashEnderAberto(tabela, lista);
 	
-	indiceRemissivo(tabela, lista, itm);
+//	indiceRemissivo(tabela, lista, itm);
 	
 	return 0;
 }

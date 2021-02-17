@@ -14,18 +14,27 @@ int tamanhoLinha(){
 	
 	char letra = '\n';
 	char palavra;
-	int tam = 0;
-	
+	int i,div, tam = 0;
      while(fread (&palavra, sizeof(char), 1, file)) {
             if(palavra == letra) {
                 tam++;
             }
         } 	
-        
 	fclose(file);
 	
-//	printf("%d", tam +1);
-	return (tam + 1);
+	tam = tam + 1; 
+	//sempre retornar um número primo	
+	while (div != 2) {
+	div = 0;
+ 		for (i = 1; i <= tam; i++) {
+    		if (tam % i == 0) 
+     		div++;
+  		}
+  		if(div != 2)
+  			tam++;
+	}
+	printf("%d", tam);
+	return (tam);
 }
 
 int tamanhoTexto(){

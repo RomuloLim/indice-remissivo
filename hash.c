@@ -13,9 +13,10 @@ typedef struct elemento{
 Hash* criaHash(){
 	Hash* ha = (Hash*) malloc(sizeof(Hash));
 	if(ha != NULL){
-		int i;
-		ha->tamanho = tamanhoLinha();
-		ha->itens = (struct item**) malloc (tamanhoLinha() * sizeof(struct item*));
+		int i, tam;
+		tam = tamanhoLinha();
+		ha->tamanho = tam;
+		ha->itens = (struct item**) malloc (tam * sizeof(struct item*));
 		if(ha->itens == NULL){
 			free(ha);
 			return NULL;
@@ -85,8 +86,10 @@ int insereHashEnderAberto(Hash* ha, Lista* li){
 			ha->qtd++;
 			printf("\n\n aux1: %s", aux->dados.palavra);
 		}else{
-	for(i=0; i < ha->tamanho; i++){
+	for(i=0; i < ha->tamanho+500; i++){
+//		printf("entrei no for");
 		novaPos = duploHash(pos, chave, i, ha->tamanho);
+//		printf(" posicao %d ", novaPos);
 		if(ha->itens[novaPos] == NULL){
 			struct item* novo;
 			novo = (struct item*) malloc(sizeof(struct item));
