@@ -14,8 +14,8 @@ Hash* criaHash(){
 	Hash* ha = (Hash*) malloc(sizeof(Hash));
 	if(ha != NULL){
 		int i;
-		ha->tamanho = tamanhoTexto();
-		ha->itens = (struct item**) malloc (tamanhoTexto() * sizeof(struct item*));
+		ha->tamanho = tamanhoLinha();
+		ha->itens = (struct item**) malloc (tamanhoLinha() * sizeof(struct item*));
 		if(ha->itens == NULL){
 			free(ha);
 			return NULL;
@@ -73,21 +73,18 @@ int insereHashEnderAberto(Hash* ha, Lista* li){
 	int i, pos, novaPos;
 	int j = 0;
 	
-	while(tamanhoLista(li) > j){
+	while(aux != NULL){
+		printf("\n\n palavra: %s", aux->dados.palavra);
 	int chave = valorString(aux->dados.palavra);
 	pos = chaveMult(chave, ha->tamanho);
-
 	if(ha->itens[pos] == NULL){
 		struct item* novo;
 		novo = (struct item*) malloc(sizeof(struct item));
 			*novo = aux->dados;
 			ha->itens[pos] = novo;
 			ha->qtd++;
-			
-			printf("\n\n aux: %s", aux->dados.palavra);
-			aux = aux->prox;
+			printf("\n\n aux1: %s", aux->dados.palavra);
 		}else{
-		
 	for(i=0; i < ha->tamanho; i++){
 		novaPos = duploHash(pos, chave, i, ha->tamanho);
 		if(ha->itens[novaPos] == NULL){
@@ -97,16 +94,68 @@ int insereHashEnderAberto(Hash* ha, Lista* li){
 			*novo = aux->dados;
 			ha->itens[novaPos] = novo;
 			ha->qtd++;
-			printf("\n\n aux: %s", aux->dados.palavra);
-			aux = aux->prox;
-			i = ha->tamanho;
+			printf("\n\n aux2: %s", aux->dados.palavra);
+			break;
 		}
 	}
 }
-	j++;
+	aux = aux->prox;
 	}
 	
 	return 1;
+	
+}
+
+int buscaHashEnderAberto(Hash* ha, char *palavra, struct item* itm){
+	if(ha == NULL)
+		return 0;
+	
+	int i, pos, newPos;
+	int chave = valorString(palavra);
+	pos = chaveMult(chave, ha->tamanho);
+	
+	if(ha->itens[pos]->palavra == palavra){
+		*itm = *(ha->itens[pos]);
+		return 1;
+	}
+	
+	for(i = 0; i < ha->tamanho; i++){
+		newPos = duploHash(pos, chave, i, ha->tamanho);
+		if(ha->itens[newPos] == NULL);
+			return 0;
+		
+		if(ha->itens[newPos]->palavra == palavra){
+			*itm = *(ha->itens[newPos]);
+			return 1;
+		}
+	}
+}
+
+int indiceRemissivo(Hash* ha, Lista* li, struct item* itm){
+	Elem *aux = *li;
+	char str[100];
+    int i,j,contador;
+    FILE *fp;
+    fp = fopen("texto.txt","r");
+    if (!fp)
+       exit(1);
+       
+       for(i = 0; i < ha->tamanho; i++){
+       	contador = 0;
+       	j = 0;
+    	buscaHashEnderAberto(ha, aux->dados.palavra, itm);
+    	while (fgets(str,sizeof(str),fp)!=NULL){
+    		contador++;
+    		aux->dados.linha[j] = contador;
+          	if (strstr(str,aux->dados.palavra)!=NULL)
+             	printf("\n palavra: %s na linha: %d\n", aux->dados.palavra, aux->dados.linha[j]);
+             	j++;
+         }
+         aux = aux->prox;
+	   }
+		   
+    fclose(fp);
+    return 1;
 	
 }
 

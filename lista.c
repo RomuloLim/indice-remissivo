@@ -24,6 +24,7 @@ int tamanhoLinha(){
         
 	fclose(file);
 	
+//	printf("%d", tam +1);
 	return (tam + 1);
 }
 
