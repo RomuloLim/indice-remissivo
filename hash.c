@@ -133,33 +133,39 @@ int buscaHashEnderAberto(Hash* ha, char *palavra, struct item* itm){
 		}
 	}
 }
-
 int indiceRemissivo(Hash* ha, Lista* li, struct item* itm){
 	Elem *aux = *li;
+	
 	char str[100];
     int i,j,contador;
+    
     FILE *fp;
     fp = fopen("texto.txt","r");
+    
     if (!fp)
-       exit(1);
-       
-       for(i = 0; i < ha->tamanho; i++){
-       	contador = 0;
-       	j = 0;
-    	buscaHashEnderAberto(ha, aux->dados.palavra, itm);
-    	while (fgets(str,sizeof(str),fp)!=NULL){
+   	  exit(1);
+   		
+	for(i = 0; i < ha->tamanho; i++) {
+		contador = 0;
+   		j = 0;
+   		
+		buscaHashEnderAberto(ha, aux->dados.palavra, itm);
+		
+    	while (fgets(str, sizeof(str), fp) != NULL) {
     		contador++;
-    		aux->dados.linha[j] = contador;
-          	if (strstr(str,aux->dados.palavra)!=NULL)
-             	printf("\n palavra: %s na linha: %d\n", aux->dados.palavra, aux->dados.linha[j]);
-             	j++;
-         }
-         aux = aux->prox;
-	   }
-		   
-    fclose(fp);
+          	if (strstr(str, aux->dados.palavra) != NULL){
+             	printf("\n palavra: %s na linha: %d\n", aux->dados.palavra, contador);
+             	aux->dados.linha[j] = contador;
+            	j++;
+            }
+        }
+   		aux = aux->prox;
+   		rewind(fp);
+   		
+   		if(aux == NULL)
+   			break;
+    }
+    
+	fclose(fp);
     return 1;
-	
 }
-
-

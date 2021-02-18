@@ -61,12 +61,13 @@ int tamanhoTexto(){
 
 Lista* criaLista(){
 	Lista* li = (Lista *) malloc(sizeof(Lista));
+	int i;
 	
 	if(li != NULL){
 	Elem* no;
 	no = (Elem*) malloc(sizeof(Elem));
 	
-	*li = NULL; //passa o no para a lista principal
+	*li = NULL;
 	}
 	
 	return li;
@@ -98,6 +99,7 @@ int tamanhoLista(Lista *li){
 }	
 
 int insereInicio(Lista* li, struct item itm){
+	int i;
 	if(li == NULL)
 		return 0;
 	Elem* no;
@@ -108,6 +110,11 @@ int insereInicio(Lista* li, struct item itm){
 
 	no->dados = itm;
 	no->prox = (*li);
+	
+	for(i = 0; i < MAX; i++){
+		no->dados.linha[i] = 0;
+	}
+	
 	*li = no;
 	printf("palavra %s inserida \n", no->dados.palavra);
 	return 1;
@@ -124,9 +131,27 @@ int preencheChaves(Lista* li){
 	
 	while(fgets(linha, sizeof(linha), file) != NULL){
 			strcpy(itm.palavra, linha);
+			if(itm.palavra[strlen(itm.palavra)-1] == '\n'){
+				itm.palavra[strlen(itm.palavra)-1] = '\0';
+			}
 			insereInicio(li, itm);
 	}
 	
 	fclose(file);
 	return 1;
+}
+
+int mostraIndice(Lista* li){
+	int i;
+	Elem* aux = *li;
+	while (aux != NULL){
+		printf("\n%s - ", aux->dados.palavra);
+		i = 0;
+		while (aux->dados.linha[i] != 0){
+			printf("%d ", aux->dados.linha[i]);
+			i++;
+		}
+		printf("\n");
+		aux = aux->prox;
+	}
 }

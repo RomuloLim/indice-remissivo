@@ -12,9 +12,11 @@ int main(int argc, char *argv[]) {
 	tabela = criaHash();
 	
 	insereHashEnderAberto(tabela, lista);
+
+	indiceRemissivo(tabela, lista, itm);
 	
-//	indiceRemissivo(tabela, lista, itm);
-	
+	printf("====================");
+	mostraIndice(lista);
 	return 0;
 }
 
