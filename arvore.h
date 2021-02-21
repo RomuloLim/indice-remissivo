@@ -16,3 +16,4 @@ int totalNO_ArvBin(ArvBin *raiz);
 void preOrdem_ArvBin(ArvBin *raiz);
 void emOrdem_ArvBin(ArvBin *raiz);
 void posOrdem_ArvBin(ArvBin *raiz);
+

@@ -10,12 +10,13 @@ struct NO {
 };
 
 ArvBin* cria_ArvBin() {
-    ArvBin* raiz = (ArvBin*) malloc(sizeof(ArvBin));
+    ArvBin* raiz;
+	raiz = (ArvBin*) malloc(sizeof(ArvBin));
 
     if(raiz != NULL)
         *raiz = NULL;
 
-	printf("\nArvore criada!\n");
+	//printf("\nArvore criada!\n\n");
     return raiz;
 }
 
@@ -39,11 +40,19 @@ void libera_ArvBin(ArvBin* raiz) {
 
 int insere_ArvBin(ArvBin *raiz, Lista* li) {
     if(raiz == NULL) return 0;
-
-    struct NO* novo;
+    
+    /*ordenar(li);
+    
+    Lista* lista;
+    lista = criaLista();
+    preencheChavesOrdenadas(lista);
+    
+    Elem* aux = *lista;*/
+    
     Elem* aux = *li;
-
-    novo = (struct NO*) malloc(sizeof(struct NO));
+    
+    struct NO* novo;
+	novo = (struct NO*) malloc(sizeof(struct NO));
 
     if(novo == NULL) return 0;
 
@@ -51,12 +60,14 @@ int insere_ArvBin(ArvBin *raiz, Lista* li) {
     novo->dir = NULL;
     novo->esq = NULL;
     
-    while(aux != NULL){
-    	// Está dando erro aqui. Ele entra no while e não sai mais!
+    int ascii;
+    
+    printf("\n");
+    while(aux != NULL) {
     	if(*raiz == NULL) {
     		*raiz = novo;
     		
-    		printf("Palavra: %s, inserida na arvore!\n", aux->dados.palavra);
+    		//printf("Palavra: %s, inserida na arvore!\n", aux->dados.palavra);
 		} else {
 	        struct NO* atual = *raiz;
 	        struct NO* ant = NULL;
@@ -69,59 +80,27 @@ int insere_ArvBin(ArvBin *raiz, Lista* li) {
 	                return 0;
 	            }
 	
-	            if(strcmp(aux->dados.palavra, atual->info->dados.palavra) > 0)
-	                atual = atual->dir;
-	            else
-	                atual = atual->esq;
+	            if(strcmp(aux->dados.palavra, atual->info->dados.palavra) > 0) {
+	            	atual = atual->dir;
+				} else {
+					atual = atual->esq;
+				}
 	                
-	            printf("Palavra dentro do while: %s, inserida na arvore!\n", aux->dados.palavra);
+	           //printf("Palavra no while: %s, inserida na arvore!\n", aux->dados.palavra);
 	        }
 	
-	        if(strcmp(aux->dados.palavra, ant->info->dados.palavra) > 0)
-	            ant->dir = novo;
-	        else
-	            ant->esq = novo;
+	        if(strcmp(aux->dados.palavra, ant->info->dados.palavra) > 0) {
+	        	ant->dir = novo;
+			} else {
+				ant->esq = novo;
+			}
+	            
     	}
-		
+    	
 		aux = aux->prox;
 	}
-    
-    /*int tam, i;
-	tam = sizeof(li)/sizeof(li[0]);
-    
-    for(i = 0; i < tam; i++) {
-    	printf("teste\n");
-	}
-	
-	printf("%d", tam);*/
 
-    /*if(*raiz == NULL) {
-    	*raiz = novo;
-	} else {
-        struct NO* atual = *raiz;
-        struct NO* ant = NULL;
-
-        while(atual != NULL) {
-            ant = atual;
-
-            if(strcmp(aux->dados.palavra, atual->info->dados.palavra) == 0) {
-                free(novo);
-                return 0;
-            }
-
-            if(strcmp(aux->dados.palavra, atual->info->dados.palavra) > 0)
-                atual = atual->dir;
-            else
-                atual = atual->esq;
-        }
-
-        if(strcmp(aux->dados.palavra, ant->info->dados.palavra) > 0)
-            ant->dir = novo;
-        else
-            ant->esq = novo;
-    }*/
-
-	printf("Palavra: %s, inserida na arvore!\n", aux->dados.palavra); 
+	printf("chegou ao final!\n");
     return 1;
 }
 
@@ -269,3 +248,45 @@ void posOrdem_ArvBin(ArvBin *raiz) {
 
 }
 
+int indiceRemissivo(ArvBin* arvore, Lista* li, struct item* itm) {
+	printf("Entrou no metodo\n");
+	Elem *aux = *li;
+	
+	char str[100];
+    int i,j,contador, tam;
+    
+    FILE *fp;
+    fp = fopen("texto.txt","r");
+    
+    if (!fp)
+   	  exit(1);
+   	  
+   	tam = tamanhoLista(li);
+   		
+	for(i = 0; i < tam; i++) {
+		contador = 0;
+   		j = 0;
+   		
+   		printf("Entrou no for\n");
+		
+    	while (fgets(str, sizeof(str), fp) != NULL) {
+    		printf("Entrou no while\n");
+    		
+    		contador++;
+    		
+          	if (strstr(str, aux->dados.palavra) != NULL){
+             	printf("\n palavra: %s na linha: %d\n", aux->dados.palavra, contador);
+             	aux->dados.linha[j] = contador;
+            	j++;
+            }
+        }
+   		aux = aux->prox;
+   		rewind(fp);
+   		
+   		if(aux == NULL)
+   			break;
+    }
+    
+	fclose(fp);
+    return 1;
+}

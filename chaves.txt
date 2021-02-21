@@ -1,8 +1,8 @@
-and
-be
 by
-easy
-human-engineered
 programming
 programs
 to
+easy
+human-engineered
+and
+be

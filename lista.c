@@ -65,7 +65,7 @@ Lista* criaLista(){
 	*li = NULL;
 	}
 	
-	printf("Lista criada!\n\n");
+//	printf("Lista criada!\n\n");
 	return li;
 }
 
@@ -115,7 +115,7 @@ int insereInicio(Lista* li, struct item itm){
 	
 	*li = no;
 	
-	printf("palavra %s inserida \n", no->dados.palavra);
+	//printf("palavra %s inserida \n", no->dados.palavra);
 	return 1;
 }
 
@@ -123,6 +123,27 @@ int preencheChaves(Lista* li){
 	struct item itm;
 	FILE *file;
 	file = fopen ("chaves.txt", "r");
+	char linha[50];
+	
+	if(file == NULL)
+		return 0;
+	
+	while(fgets(linha, sizeof(linha), file) != NULL){
+			strcpy(itm.palavra, linha);
+			if(itm.palavra[strlen(itm.palavra)-1] == '\n'){
+				itm.palavra[strlen(itm.palavra)-1] = '\0';
+			}
+			insereInicio(li, itm);
+	}
+	
+	fclose(file);
+	return 1;
+}
+
+int preencheChavesOrdenadas(Lista* li){
+	struct item itm;
+	FILE *file;
+	file = fopen ("chavesOrdenadas.txt", "r");
 	char linha[50];
 	
 	if(file == NULL)
